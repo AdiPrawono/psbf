@@ -4,7 +4,7 @@
 <div class="container-fluid mt-2 px-4">
   <div class="row">
     <div class="col-12">
-        <h4 class="font-weight-bold">Permintaan Cuti Pegawai/h4>
+        <h4 class="font-weight-bold">Permintaan Cuti Pegawai</h4>
         <hr>
     </div>
   </div>

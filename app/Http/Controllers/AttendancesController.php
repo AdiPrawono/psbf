@@ -16,8 +16,8 @@ class AttendancesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');  
-        
+        $this->middleware('auth');
+
         $this->attendances = resolve(Attendance::class);
 
         $this->attendanceTimes = resolve(AttendanceTime::class)->get();
@@ -37,10 +37,12 @@ class AttendancesController extends Controller
     {
         $inId = $this->getId($this->attendanceTimes, "IN");
         $outId = $this->getId($this->attendanceTimes, "OUT");
-        
+
         $now = Carbon::now('Asia/Jakarta');
         $checkInTime = Carbon::createFromTime(8,0,0,'Asia/Jakarta');
-        $checkOutTime = Carbon::createFromTime(16,0,0,'Asia/Jakarta');
+        $checkOutTime = Carbon::createFromTime(10,0,0,'Asia/Jakarta');
+
+        // dd($now, $now > $checkInTime, $checkOutTime);
 
         $type = "";
         $time = "";
@@ -48,18 +50,18 @@ class AttendancesController extends Controller
         if($request->sick == 1) {
             $type = "SICK";
             $time = "OTHER";
-        } else { 
+        } else {
             $checkForAttendance = Attendance::whereBetween('created_at', [Carbon::today('Asia/Jakarta'), Carbon::tomorrow('Asia/Jakarta')])
                                                 ->where('employee_id', auth()->user()->employee->id)
                                                 ->whereIn('attendance_time_id', [$inId, $outId])
                                                 ->first();
-            
+
             if ($checkForAttendance === null) {
                 $time = "IN";
 
-                if($now > $checkInTime) {
-                    return redirect()->route('attendances')->with('status', 'Please wait for checkin time.');
-                }
+                // if($now > $checkInTime) {
+                //     return redirect()->route('attendances')->with('status', 'Please wait for checkin time.');
+                // }
 
                 if($now <= $checkInTime) {
                     $type = "ONTIME";
@@ -74,18 +76,18 @@ class AttendancesController extends Controller
                         return redirect()->route('attendances')->with('status', 'Please wait for checkout time.');
                     }
 
-                    if($now == $checkOutTime) {
-                        $type = "ONTIME";
+                    if($now >= $checkOutTime) {
+                        $type = "TEPAT WAKTU";
                     } else {
-                        $type = "OVERTIME";
+                        $type = "LEMBUR";
                     }
                 } else {
                     $time = "IN";
 
                     if($now <= $checkInTime) {
-                        $type = "ONTIME";
+                        $type = "TEPAT WAKTU";
                     } else {
-                        $type = "LATE";
+                        $type = "TERLAMBAT";
                     }
                 }
             }
@@ -101,17 +103,17 @@ class AttendancesController extends Controller
         return back();
     }
 
-    public function print() 
+    public function print()
     {
         $attendances = Attendance::all();
         return view('pages.attendances_print', compact('attendances'));
     }
 
-    public function getId ($array, $type) 
+    public function getId ($array, $type)
     {
         return $array->filter(function ($item) use ($type) {
             return $item->name == $type;
         })->first()->id;
     }
-    
+
 }
