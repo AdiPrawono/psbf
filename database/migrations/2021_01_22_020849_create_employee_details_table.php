@@ -29,7 +29,7 @@ class CreateEmployeeDetailsTable extends Migration
             $table->string('gpa');
             $table->integer('work_experience_in_years');
             $table->timestamps();
-
+            
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }

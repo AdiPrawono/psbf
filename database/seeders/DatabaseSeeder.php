@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             AccessSeeder::class,
             ScoreCategorySeeder::class, 
+            SalarySeeder::class,
         ]);
     }
 }

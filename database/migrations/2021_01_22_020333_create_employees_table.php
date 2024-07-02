@@ -17,6 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name');
+            
             $table->date('start_of_contract');
             $table->date('end_of_contract');
             $table->unsignedBigInteger('department_id')->nullable();
@@ -24,7 +25,7 @@ class CreateEmployeesTable extends Migration
             $table->unsignedBigInteger('head_of')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
-
+            
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('department_id')->references('id')->on('departments')->onDelete('set null');
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');

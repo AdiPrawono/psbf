@@ -20,7 +20,7 @@ class CheckAccess
     {
         $name = explode(".", $request->route()->getName())[0];
 
-        if(in_array($name, array('employees-data', 'departments-data', 'positions-data'))){
+        if (in_array($name, array('employees-data', 'departments-data', 'positions-data'))) {
             $name = "data";
         } else if (in_array($name, array('users', 'roles'))) {
             $name = "accounts";
@@ -32,16 +32,18 @@ class CheckAccess
             $name = "performance";
         } else if ($name == "score-categories") {
             $name = "score-category";
+        } else if ($name == "salaries") {
+            $name = "salary";
         }
 
 
         $menuId = Menu::whereName($name)->first()->id;
         $accessType = Access::where([
-            ["menu_id",'=', $menuId],
-            ["role_id",'=', auth()->user()->role_id],
+            ["menu_id", '=', $menuId],
+            ["role_id", '=', auth()->user()->role_id],
         ])->first()->status;
 
-        if($accessType < 1) {
+        if ($accessType < 1) {
             return redirect()->route('dashboard');
         }
 

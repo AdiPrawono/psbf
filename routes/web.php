@@ -1,24 +1,25 @@
 <?php
 
-use App\Http\Controllers\AnnouncementsController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\AttendancesController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DepartmentsController;
-use App\Http\Controllers\EmployeeLeaveRequestsController;
-use App\Http\Controllers\EmployeeLeavesController;
-use App\Http\Controllers\EmployeesController;
-use App\Http\Controllers\EmployeeScoresController;
-use App\Http\Controllers\LogsController;
-use App\Http\Controllers\PositionsController;
-use App\Http\Controllers\ProfilesController;
-use App\Http\Controllers\RecruitmentCandidatesController;
-use App\Http\Controllers\RecruitmentsController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\ScoreCategoriesController;
-use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LogsController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\ProfilesController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\PositionsController;
+use App\Http\Controllers\AttendancesController;
+use App\Http\Controllers\DepartmentsController;
+use App\Http\Controllers\RecruitmentsController;
+use App\Http\Controllers\AnnouncementsController;
+use App\Http\Controllers\EmployeeLeavesController;
+use App\Http\Controllers\EmployeeScoresController;
+use App\Http\Controllers\ScoreCategoriesController;
+use App\Http\Controllers\EmployeeLeaveRequestsController;
+use App\Http\Controllers\RecruitmentCandidatesController;
 
 Auth::routes([
     'register' => false,
@@ -35,7 +36,7 @@ Route::post('/recruitment-candidates', [RecruitmentCandidatesController::class, 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::middleware('check.access')->group(function() {
+Route::middleware('check.access')->group(function () {
     // employess (data pegawai)
     Route::get('/employees-data', [EmployeesController::class, 'index'])->name('employees-data');
     Route::get('/employees-data/create', [EmployeesController::class, 'create'])->name('employees-data.create');
@@ -139,7 +140,16 @@ Route::middleware('check.access')->group(function() {
     Route::put('/roles/{role}', [RolesController::class, 'update'])->name('roles.update');
     Route::delete('/roles/{role}', [RolesController::class, 'destroy'])->name('roles.destroy');
 
+    // salary (gaji)
+    Route::get('/salaries', [SalaryController::class, 'index'])->name('salaries');
+    Route::get('/salaries/create', [SalaryController::class, 'create'])->name('salaries.create');
+    Route::get('/salaries/print', [SalaryController::class, 'print'])->name('salaries.print');
+    Route::get('/salaries/{id}', [SalaryController::class, 'show'])->name('salaries.show');
+    Route::post('/salaries/{id}/send', [SalaryController::class, 'send'])->name('salaries.send');
+    Route::delete('/salaries/{id}', [SalaryController::class, 'destroy'])->name('salaries.destroy');
+
+
     // profile (profil)
     Route::get('/profile', [ProfilesController::class, 'index'])->name('profile');
-    Route::put('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');    
+    Route::put('/profile/{user}', [ProfilesController::class, 'update'])->name('profile.update');
 });

@@ -1,5 +1,4 @@
 @extends('layouts.admin', ['accesses' => $accesses, 'active' => 'data'])
-
 @section('_content')
 <div class="container-fluid mt-2 px-4">
   <div class="row">
@@ -124,15 +123,8 @@
             <div class="row">
               <div class="col-sm-12 col-lg-6">
                 <div class="form-group">
-                  <label for="department_id">Department:</label>
-                  <select id="department_id" class="form-control @error('department_id') is-invalid @enderror" name="department_id" required>
-                    <option value="">Choose...</option>
-                    @foreach ($departments as $department)
-                    <option value="{{ $department->id }}" {{ $employee->department_id == $department->id ? 'selected': '' }}>
-                      {{ $department->name }}
-                    </option>
-                    @endforeach
-                  </select>
+                  <label for="department_id">Gaji:</label>
+                  <input type="text" name="salary" id="salary" class="form-control @error('salary') is-invalid @enderror" value="{{ $employee->salary->salary }}" placeholder="" required>
                 </div>
                 @error('department_id')
                   <div class="alert alert-danger">{{ $message }}</div>

@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Models\Department;
-use App\Models\Employee;
-use App\Models\EmployeeDetail;
-use App\Models\EmployeeLeave;
+use PDF;
 use App\Models\Log;
-use App\Models\Position;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Salary;
+use App\Models\Employee;
+use App\Models\Position;
+use App\Models\Department;
 use Illuminate\Http\Request;
+use App\Models\EmployeeLeave;
+use App\Models\EmployeeDetail;
 use Illuminate\Support\Facades\Hash;
-use PDF;
+use App\Http\Requests\StoreEmployeeRequest;
 
 class EmployeesController extends Controller
 {
@@ -99,8 +100,10 @@ class EmployeesController extends Controller
         $roles = resolve(Role::class)->get();
         $departments = resolve(Department::class)->get();
         $positions = resolve(Position::class)->get();
+        $salaries = resolve(Salary::class)->get();
 
-        return view('pages.employees-data_edit', compact('employee', 'roles', 'departments', 'positions'));
+        // dd($employee);
+        return view('pages.employees-data_edit', compact('employee', 'roles', 'departments', 'positions', 'salaries'));
     }
 
     public function update(StoreEmployeeRequest $request, Employee $employee)
@@ -137,6 +140,7 @@ class EmployeesController extends Controller
                         'cv' => $request->file('cv')->store('cvs', 'public'),
                         'last_education' => $request->input('last_education'),
                         'gpa' => $request->input('gpa'),
+                        'salary' => $request->input('salary'),
                         'work_experience_in_years' => $request->input('work_experience_in_years'),
                     ]);
 

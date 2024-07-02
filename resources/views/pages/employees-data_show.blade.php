@@ -56,12 +56,12 @@
         </div>
 
         <div class="row">
-          {{-- <div class="col-sm-12 col-lg-6">
+          <div class="col-sm-12 col-lg-6">
             <div class="form-group">
-              <label for="department_id">Department:</label>
-              <input type="text" name="department_id" id="department_id" class="form-control-plaintext" readonly value="{{ $employee->department->name }}">
+              <label for="department_id">Gaji:</label>
+              <input type="text" name="department_id" id="department_id" class="form-control-plaintext" readonly value="{{ $employee->salary->salary }}">
             </div>
-          </div> --}}
+          </div>
           <div class="col-sm-12 col-lg-6">
             <div class="form-group">
               <label for="position_id">Jabatan:</label>
